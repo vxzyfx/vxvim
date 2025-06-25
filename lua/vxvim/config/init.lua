@@ -241,20 +241,9 @@ end
 
 ---@param name "autocmds" | "options" | "keymaps"
 function M.load(name)
-  local function _load(mod)
-    if require("lazy.core.cache").find(mod)[1] then
-      VxVim.try(function()
-        require(mod)
-      end, { msg = "Failed loading " .. mod })
-    end
-  end
   local pattern = "VxVim" .. name:sub(1, 1):upper() .. name:sub(2)
   -- always load vxvim, then user file
-  if M.defaults[name] or name == "options" then
-    _load("vxvim.config." .. name)
-    vim.api.nvim_exec_autocmds("User", { pattern = pattern .. "Defaults", modeline = false })
-  end
-  _load("config." .. name)
+  require("vxvim.config." .. name)
   if vim.bo.filetype == "lazy" then
     -- HACK: VxVim may have overwritten options of the Lazy ui, so reset this here
     vim.cmd([[do VimResized]])
@@ -271,11 +260,6 @@ function M.init()
   local plugin = require("lazy.core.config").spec.plugins.VxVim
   if plugin then
     vim.opt.rtp:append(plugin.dir)
-  end
-
-  package.preload["vxvim.plugins.lsp.format"] = function()
-    VxVim.deprecate([[require("vxvim.plugins.lsp.format")]], [[VxVim.format]])
-    return VxVim.format
   end
 
   -- delay notifications till vim.notify was replaced or after 500ms
