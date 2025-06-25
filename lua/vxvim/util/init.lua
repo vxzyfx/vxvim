@@ -36,6 +36,14 @@ function M.is_win()
   return vim.uv.os_uname().sysname:find("Windows") ~= nil
 end
 
+function M.is_darwin()
+  return vim.uv.os_uname().sysname:find("Darwin") ~= nil
+end
+
+function M.is_linux()
+  return vim.uv.os_uname().sysname:find("Linux") ~= nil
+end
+
 ---@param name string
 function M.get_plugin(name)
   return require("lazy.core.config").spec.plugins[name]
