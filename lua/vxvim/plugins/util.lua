@@ -23,6 +23,22 @@ return {
             nav_j = { "<C-j>", term_nav("j"), desc = "Go to Lower Window", expr = true, mode = "t" },
             nav_k = { "<C-k>", term_nav("k"), desc = "Go to Upper Window", expr = true, mode = "t" },
             nav_l = { "<C-l>", term_nav("l"), desc = "Go to Right Window", expr = true, mode = "t" },
+            term_normal = {
+             "<esc>",
+             function(self)
+               self.esc_timer = self.esc_timer or (vim.uv or vim.loop).new_timer()
+               if self.esc_timer:is_active() then
+                 self.esc_timer:stop()
+                 vim.cmd("stopinsert")
+               else
+                 self.esc_timer:start(200, 0, function() end)
+                 return "<esc>"
+               end
+             end,
+             desc = "Double escape to normal mode",
+             expr = true,
+             mode = "t",
+           },
           },
         },
       },
