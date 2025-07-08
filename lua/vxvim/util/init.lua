@@ -19,6 +19,10 @@ function M.is_win()
   return vim.uv.os_uname().sysname:find("Windows") ~= nil
 end
 
+function M.is_linux()
+  return vim.uv.os_uname().sysname:find("Linux") ~= nil
+end
+
 ---@param fn fun()
 function M.on_very_lazy(fn)
   vim.api.nvim_create_autocmd("User", {
