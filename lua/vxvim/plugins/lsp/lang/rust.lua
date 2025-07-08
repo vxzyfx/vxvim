@@ -4,10 +4,10 @@ return {
     "Saecki/crates.nvim",
     event = { "BufRead Cargo.toml" },
     keys = {
-      { "<leader>ct", mode = { "n", "v" }, function() require("crates").toggle() end,                  desc = "Crates Toggle" },
-      { "<leader>cv", mode = { "n", "v" }, function() require("crates").show_versions_popup() end,     desc = "Crates Versions" },
-      { "<leader>cf", mode = { "n", "v" }, function() require("crates").show_features_popup() end,     desc = "Crates Features" },
-      { "<leader>cd", mode = { "n", "v" }, function() require("crates").show_dependencies_popup() end, desc = "Crates Dependencies" },
+      { "<leader>pt", mode = { "n", "v" }, function() require("crates").toggle() end,                  desc = "Crates Toggle" },
+      { "<leader>pv", mode = { "n", "v" }, function() require("crates").show_versions_popup() end,     desc = "Crates Versions" },
+      { "<leader>pf", mode = { "n", "v" }, function() require("crates").show_features_popup() end,     desc = "Crates Features" },
+      { "<leader>pd", mode = { "n", "v" }, function() require("crates").show_dependencies_popup() end, desc = "Crates Dependencies" },
     },
     opts = {
       completion = {
