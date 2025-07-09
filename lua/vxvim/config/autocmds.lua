@@ -124,3 +124,12 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
     vim.fn.mkdir(vim.fn.fnamemodify(file, ":p:h"), "p")
   end,
 })
+
+-- Fix zh_cn
+vim.api.nvim_create_autocmd({ "FileType" }, {
+  group = augroup("markdown_no_spell"),
+  pattern = "markdown",
+  callback = function()
+    vim.opt_local.spell = false
+  end,
+})
