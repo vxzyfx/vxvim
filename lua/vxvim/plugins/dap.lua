@@ -55,6 +55,7 @@ return {
       { "<leader>dw",  function() require("dap.ui.widgets").hover() end,                                     desc = "Widgets" },
       { "<leader>dPt", function() require('dap-python').test_method() end,                                   desc = "Debug Method",           ft = "python" },
       { "<leader>dPc", function() require('dap-python').test_class() end,                                    desc = "Debug Class",            ft = "python" },
+      { "<leader>td",  function() require("neotest").run.run({ strategy = "dap" }) end,                      desc = "Debug Nearest" },
     },
 
     config = function()

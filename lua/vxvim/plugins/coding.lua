@@ -113,6 +113,7 @@ return {
         -- set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
         -- adjusts spacing to ensure icons are aligned
         nerd_font_variant = "mono",
+        kind_icons = VxUtil.config.icons.kinds,
       },
       completion = {
         accept = {
@@ -142,7 +143,14 @@ return {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
         compat = {},
-        default = { "lsp", "path", "snippets", "buffer" },
+        default = { "lsp", "path", "snippets", "buffer", "lazydev" },
+        providers = {
+          lazydev = {
+            name = "LazyDev",
+            module = "lazydev.integrations.blink",
+            score_offset = 100, -- show at a higher priority than lsp
+          },
+        },
       },
 
       cmdline = {
@@ -219,40 +227,5 @@ return {
 
       require("blink.cmp").setup(opts)
     end,
-  },
-
-  -- add icons
-  {
-    "saghen/blink.cmp",
-    opts = function(_, opts)
-      opts.appearance = opts.appearance or {}
-      opts.appearance.kind_icons = vim.tbl_extend("force", opts.appearance.kind_icons or {}, VxUtil.config.icons.kinds)
-    end,
-  },
-
-  -- lazydev
-  {
-    "saghen/blink.cmp",
-    opts = {
-      sources = {
-        -- add lazydev to your completion providers
-        default = { "lazydev" },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            score_offset = 100, -- show at a higher priority than lsp
-          },
-        },
-      },
-    },
-  },
-  -- catppuccin support
-  {
-    "catppuccin",
-    optional = true,
-    opts = {
-      integrations = { blink_cmp = true },
-    },
   },
 }
