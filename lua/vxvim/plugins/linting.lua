@@ -7,6 +7,8 @@ return {
       events = { "BufWritePost", "BufReadPost", "InsertLeave" },
       linters_by_ft = {
         fish = { "fish" },
+        sh = { "shellcheck" },
+        zsh = { "shellcheck" },
         cmake = { "cmakelint" },
         markdown = { "markdownlint-cli2" },
         -- Use the "*" filetype to run linters on all filetypes.

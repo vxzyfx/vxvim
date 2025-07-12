@@ -77,10 +77,11 @@ return {
         },
         formatters_by_ft = {
           fish = { "fish_indent" },
+          sh = { "shfmt", "shellcheck" },
+          zsh = { "shfmt", "shellcheck" },
           go = { "goimports", "gofumpt" },
           lua = { "stylua" },
           nix = { "nixfmt" },
-          sh = { "shfmt" },
           ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
           ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
         },

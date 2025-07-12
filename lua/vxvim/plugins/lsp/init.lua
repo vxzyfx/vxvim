@@ -62,6 +62,7 @@ return {
         ---@type lspconfig.options
         servers = {
           astro = {},
+          bashls = {},
           basedpyright = {},
           neocmake = {},
           nil_ls = {},
