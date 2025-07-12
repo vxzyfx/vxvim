@@ -82,6 +82,7 @@ return {
           go = { "goimports", "gofumpt" },
           lua = { "stylua" },
           nix = { "nixfmt" },
+          python = { "isort", "black" },
           ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
           ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
         },
