@@ -59,7 +59,7 @@ return {
     },
 
     config = function()
-      require("dap-python").setup("debugpy")
+      require("dap-python").setup("python")
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
       local dap = require("dap")
       if not dap.adapters["codelldb"] then
