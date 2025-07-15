@@ -39,6 +39,7 @@ return {
         "cmake",
         "css",
         "cpp",
+        "dart",
         "diff",
         "go",
         "gomod",
