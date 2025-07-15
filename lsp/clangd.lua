@@ -60,9 +60,6 @@ end
 local capabilities = vim.deepcopy(VxUtil.lsp.capabilities)
 capabilities.offsetEncoding = { "utf-16" }
 
-
-local cmake = require("cmake-tools")
-
 ---@class ClangdInitializeResult: lsp.InitializeResult
 ---@field offsetEncoding? string
 
@@ -115,6 +112,7 @@ return {
     end, { desc = 'Show symbol info' })
     VxUtil.lsp.on_attach(client, bufnr)
 
+    local cmake = require("cmake-tools")
     if cmake.is_cmake_project() then
       vim.keymap.set("n", "<leader>dR", "<cmd>CMakeDebug<cr>",
         { desc = "Debug", buffer = bufnr })
