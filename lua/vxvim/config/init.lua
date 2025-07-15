@@ -108,6 +108,8 @@ VxUtil.config = {
       "Trait",
     },
   },
+  lsp_servers = { "astro", "basedpyright", "bashls", "clangd", "gopls", "jsonls", "luals", "neocmake", "nills",
+    "tailwindcss", "vtsls", "vuels", "yamlls", "zls" }
 }
 
 function M.setup(opts)
@@ -131,6 +133,7 @@ function M.setup(opts)
 
       VxUtil.format.setup()
       VxUtil.root.setup()
+      VxUtil.lsp.setup()
     end
   })
   VxUtil.track("colorscheme")

@@ -1,6 +1,29 @@
 ---@class vxvim.util.lsp
 local M = {}
 
+
+M.diagnostics = {
+  underline = true,
+  update_in_insert = false,
+  virtual_text = {
+    spacing = 4,
+    source = "if_many",
+    prefix = "●",
+    -- this will set set the prefix to a function that returns the diagnostics icon based on the severity
+    -- this only works on a recent 0.10.0 build. Will be set to "●" when not supported
+    -- prefix = "icons",
+  },
+  severity_sort = true,
+  signs = {
+    text = {
+      [vim.diagnostic.severity.ERROR] = VxUtil.config.icons.diagnostics.Error,
+      [vim.diagnostic.severity.WARN] = VxUtil.config.icons.diagnostics.Warn,
+      [vim.diagnostic.severity.HINT] = VxUtil.config.icons.diagnostics.Hint,
+      [vim.diagnostic.severity.INFO] = VxUtil.config.icons.diagnostics.Info,
+    },
+  },
+}
+
 ---@alias lsp.Client.filter {id?: number, bufnr?: number, name?: string, method?: string, filter?:fun(client: lsp.Client):boolean}
 
 ---@param opts? lsp.Client.filter
@@ -21,9 +44,15 @@ function M.get_clients(opts)
   return opts and opts.filter and vim.tbl_filter(opts.filter, ret) or ret
 end
 
+---@param client vim.lsp.Client
+---@param buffer? number
+function M.on_attach(client, buffer)
+  require("vxvim.plugins.lsp.keymaps").on_attach(client, buffer)
+end
+
 ---@param on_attach fun(client:vim.lsp.Client, buffer)
 ---@param name? string
-function M.on_attach(on_attach, name)
+function M.run_on_attach(on_attach, name)
   return vim.api.nvim_create_autocmd("LspAttach", {
     callback = function(args)
       local buffer = args.buf ---@type number
@@ -39,6 +68,38 @@ end
 M._supports_method = {}
 
 function M.setup()
+  local inlay_hints_exclude = { "vue" }
+  VxUtil.format.register(VxUtil.lsp.formatter())
+  VxUtil.lsp.on_dynamic_capability(require("vxvim.plugins.lsp.keymaps").on_attach)
+
+  local has_blink, blink = pcall(require, "blink.cmp")
+
+  local capabilities = {
+    workspace = {
+      fileOperations = {
+        didRename = true,
+        willRename = true,
+      },
+    },
+  }
+  M.capabilities = vim.tbl_deep_extend(
+    "force",
+    {},
+    vim.lsp.protocol.make_client_capabilities(),
+    has_blink and blink.get_lsp_capabilities() or {},
+    capabilities
+  )
+  vim.diagnostic.config(vim.deepcopy(M.diagnostics))
+
+  VxUtil.lsp.on_supports_method("textDocument/inlayHint", function(_, buffer)
+    if
+        vim.api.nvim_buf_is_valid(buffer)
+        and vim.bo[buffer].buftype == ""
+        and not vim.tbl_contains(inlay_hints_exclude, vim.bo[buffer].filetype)
+    then
+      vim.lsp.inlay_hint.enable(true, { bufnr = buffer })
+    end
+  end)
   local register_capability = vim.lsp.handlers["client/registerCapability"]
   vim.lsp.handlers["client/registerCapability"] = function(err, res, ctx)
     ---@diagnostic disable-next-line: no-unknown
@@ -54,8 +115,11 @@ function M.setup()
     end
     return ret
   end
-  M.on_attach(M._check_methods)
+  M.run_on_attach(M._check_methods)
   M.on_dynamic_capability(M._check_methods)
+  for _, lsp in pairs(VxUtil.config.lsp_servers) do
+    vim.lsp.enable(lsp)
+  end
 end
 
 ---@param client vim.lsp.Client
@@ -118,39 +182,6 @@ function M.on_supports_method(method, fn)
   })
 end
 
----@return _.lspconfig.options
-function M.get_config(server)
-  local configs = require("lspconfig.configs")
-  return rawget(configs, server)
-end
-
----@return {default_config:lspconfig.Config}
-function M.get_raw_config(server)
-  local ok, ret = pcall(require, "lspconfig.configs." .. server)
-  if ok then
-    return ret
-  end
-  return require("lspconfig.server_configurations." .. server)
-end
-
-function M.is_enabled(server)
-  local c = M.get_config(server)
-  return c and c.enabled ~= false
-end
-
----@param server string
----@param cond fun( root_dir, config): boolean
-function M.disable(server, cond)
-  local util = require("lspconfig.util")
-  local def = M.get_config(server)
-  ---@diagnostic disable-next-line: undefined-field
-  def.document_config.on_new_config = util.add_hook_before(def.document_config.on_new_config, function(config, root_dir)
-    if cond(root_dir, config) then
-      config.enabled = false
-    end
-  end)
-end
-
 ---@param opts? LazyFormatter| {filter?: (string|lsp.Client.filter)}
 function M.formatter(opts)
   opts = opts or {}
@@ -170,7 +201,7 @@ function M.formatter(opts)
       ---@param client vim.lsp.Client
       local ret = vim.tbl_filter(function(client)
         return client.supports_method("textDocument/formatting")
-          or client.supports_method("textDocument/rangeFormatting")
+            or client.supports_method("textDocument/rangeFormatting")
       end, clients)
       ---@param client vim.lsp.Client
       return vim.tbl_map(function(client)
@@ -189,7 +220,6 @@ function M.format(opts)
     "force",
     {},
     opts or {},
-    VxUtil.opts("nvim-lspconfig").format or {},
     VxUtil.opts("conform.nvim").format or {}
   )
   local ok, conform = pcall(require, "conform")

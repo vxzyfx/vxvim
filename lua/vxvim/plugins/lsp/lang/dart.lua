@@ -7,7 +7,8 @@ return {
         enabled = true,
       },
       lsp = {
-        on_attach = function(_, bufnr)
+        on_attach = function(client, bufnr)
+          VxUtil.lsp.on_attach(client, bufnr)
           vim.keymap.set("n", "<leader>dr",
             "<Cmd>FlutterDebug<CR>",
             { desc = "Flutter Debug", buffer = bufnr })
