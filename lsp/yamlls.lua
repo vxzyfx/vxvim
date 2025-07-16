@@ -9,14 +9,14 @@ return {
       require("schemastore").yaml.schemas()
     )
   end,
-  -- capabilities = vim.tbl_deep_extend("force", vim.deepcopy(VxUtil.lsp.capabilities), {
-  --   textDocument = {
-  --     foldingRange = {
-  --       dynamicRegistration = false,
-  --       lineFoldingOnly = true,
-  --     },
-  --   },
-  -- }),
+  capabilities = vim.tbl_deep_extend("force", vim.deepcopy(VxUtil.lsp.capabilities), {
+    textDocument = {
+      foldingRange = {
+        dynamicRegistration = false,
+        lineFoldingOnly = true,
+      },
+    },
+  }),
   on_attach = function(client, buffer)
     VxUtil.lsp.on_attach(client, buffer)
   end,
