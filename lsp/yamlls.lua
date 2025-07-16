@@ -2,11 +2,14 @@ return {
   cmd = { 'yaml-language-server', '--stdio' },
   filetypes = { 'yaml', 'yaml.docker-compose', 'yaml.gitlab', 'yaml.helm-values' },
   root_markers = { '.git' },
-  on_new_config = function(new_config)
-    new_config.settings.yaml.schemas = vim.tbl_deep_extend(
+  before_init = function(_, config)
+    config.settings.yaml.schemas = vim.tbl_deep_extend(
       "force",
-      new_config.settings.yaml.schemas or {},
-      require("schemastore").yaml.schemas()
+      config.settings.yaml.schemas or {},
+      require("schemastore").yaml.schemas(),
+      {
+        ["https://raw.githubusercontent.com/yannh/kubernetes-json-schema/master/v1.33.2/all.json"] = { "*.k8s.yaml", "*.k8s.yml" },
+      }
     )
   end,
   capabilities = vim.tbl_deep_extend("force", vim.deepcopy(VxUtil.lsp.capabilities), {
