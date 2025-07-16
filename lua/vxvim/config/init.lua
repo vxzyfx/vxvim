@@ -127,9 +127,6 @@ function M.setup(opts)
         M.load("autocmds")
       end
       M.load("keymaps")
-      if lazy_clipboard ~= nil then
-        vim.opt.clipboard = lazy_clipboard
-      end
 
       VxUtil.format.setup()
       VxUtil.root.setup()

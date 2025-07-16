@@ -77,7 +77,9 @@ opt.wildmode = "longest:full,full" -- Command-line completion mode
 opt.winminwidth = 5                -- Minimum window width
 opt.wrap = false                   -- Disable line wrap
 
-opt.foldmethod = "indent"
+opt.smoothscroll = true
+opt.foldmethod = "expr"
+opt.foldexpr = "v:lua.require'vxvim.util'.ui.foldexpr()"
 opt.foldtext = "v:lua.require'vxvim.util'.ui.foldtext()"
 
 -- Fix markdown indentation settings

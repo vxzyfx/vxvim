@@ -64,19 +64,6 @@ return {
     end,
   },
   {
-    "folke/lazydev.nvim",
-    ft = "lua",
-    cmd = "LazyDev",
-    opts = {
-      library = {
-        { path = "${3rd}/luv/library", words = { "vim%.uv" } },
-        { path = "VxUtil",             words = { "VxUtil" } },
-        { path = "snacks.nvim",        words = { "Snacks" } },
-        { path = "lazy.nvim",          words = { "VxUtil" } },
-      },
-    },
-  },
-  {
     "saghen/blink.cmp",
     version = not vim.g.vxvim_blink_main and "*",
     build = vim.g.vxvim_blink_main and "cargo build --release",
@@ -87,13 +74,6 @@ return {
     },
     dependencies = {
       "rafamadriz/friendly-snippets",
-      -- add blink.compat to dependencies
-      {
-        "saghen/blink.compat",
-        optional = true, -- make optional so it's only enabled if any extras need it
-        opts = {},
-        version = not vim.g.vxvim_blink_main and "*",
-      },
     },
     event = "InsertEnter",
 
@@ -101,7 +81,7 @@ return {
     ---@type blink.cmp.Config
     opts = {
       snippets = {
-        expand = function(snippet, _)
+        expand = function(snippet)
           return VxUtil.cmp.expand(snippet)
         end,
       },
@@ -143,14 +123,7 @@ return {
         -- adding any nvim-cmp sources here will enable them
         -- with blink.compat
         compat = {},
-        default = { "lsp", "path", "snippets", "buffer", "lazydev" },
-        providers = {
-          lazydev = {
-            name = "LazyDev",
-            module = "lazydev.integrations.blink",
-            score_offset = 100, -- show at a higher priority than lsp
-          },
-        },
+        default = { "lsp", "path", "snippets", "buffer" },
       },
 
       cmdline = {

@@ -1,25 +1,3 @@
-vim.g.lazyvim_picker = "snacks"
----@module 'snacks'
-
----@type LazyPicker
-local picker = {
-  name = "snacks",
-  commands = {
-    files = "files",
-    live_grep = "grep",
-    oldfiles = "recent",
-  },
-
-  ---@param source string
-  ---@param opts? snacks.picker.Config
-  open = function(source, opts)
-    return Snacks.picker.pick(source, opts)
-  end,
-}
-if not VxUtil.pick.register(picker) then
-  return {}
-end
-
 -- Terminal Mappings
 local function term_nav(dir)
   ---@param self snacks.terminal
@@ -520,11 +498,7 @@ return {
       {
         "<leader>n",
         function()
-          if Snacks.config.picker and Snacks.config.picker.enabled then
-            Snacks.picker.notifications()
-          else
-            Snacks.notifier.show_history()
-          end
+          Snacks.notifier.show_history()
         end,
         desc = "Notification History"
       },
@@ -545,19 +519,19 @@ return {
       },
       { "<leader>e",       "<leader>fe",                                                           desc = "Explorer Snacks (root dir)",          remap = true },
       { "<leader>E",       "<leader>fE",                                                           desc = "Explorer Snacks (cwd)",               remap = true },
+      { "<leader><space>", function() Snacks.picker.smart() end,                                   desc = "Smart Find Files" },
       { "<leader>,",       function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
-      { "<leader>/",       VxUtil.pick("grep"),                                                    desc = "Grep (Root Dir)" },
+      { "<leader>/",       function() Snacks.picker.grep() end,                                    desc = "Grep (Root Dir)" },
       { "<leader>:",       function() Snacks.picker.command_history() end,                         desc = "Command History" },
-      { "<leader><space>", VxUtil.pick("files"),                                                   desc = "Find Files (Root Dir)" },
       { "<leader>n",       function() Snacks.picker.notifications() end,                           desc = "Notification History" },
       -- find
       { "<leader>fb",      function() Snacks.picker.buffers() end,                                 desc = "Buffers" },
       { "<leader>fB",      function() Snacks.picker.buffers({ hidden = true, nofile = true }) end, desc = "Buffers (all)" },
-      { "<leader>fc",      VxUtil.pick.config_files(),                                             desc = "Find Config File" },
-      { "<leader>ff",      VxUtil.pick("files"),                                                   desc = "Find Files (Root Dir)" },
-      { "<leader>fF",      VxUtil.pick("files", { root = false }),                                 desc = "Find Files (cwd)" },
+      { "<leader>fc",      function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+      { "<leader>ff",      function() Snacks.picker.files() end,                                   desc = "Find Files (Root Dir)" },
+      { "<leader>fF",      function() Snacks.picker.files({ root = false }) end,                   desc = "Find Files (cwd)" },
       { "<leader>fg",      function() Snacks.picker.git_files() end,                               desc = "Find Files (git-files)" },
-      { "<leader>fr",      VxUtil.pick("oldfiles"),                                                desc = "Recent" },
+      { "<leader>fr",      function() Snacks.picker.recent() end,                                  desc = "Recent" },
       { "<leader>fR",      function() Snacks.picker.recent({ filter = { cwd = true } }) end,       desc = "Recent (cwd)" },
       { "<leader>fp",      function() Snacks.picker.projects() end,                                desc = "Projects" },
       -- git
@@ -567,11 +541,11 @@ return {
       -- Grep
       { "<leader>sb",      function() Snacks.picker.lines() end,                                   desc = "Buffer Lines" },
       { "<leader>sB",      function() Snacks.picker.grep_buffers() end,                            desc = "Grep Open Buffers" },
-      { "<leader>sg",      VxUtil.pick("live_grep"),                                               desc = "Grep (Root Dir)" },
-      { "<leader>sG",      VxUtil.pick("live_grep", { root = false }),                             desc = "Grep (cwd)" },
+      { "<leader>sg",      function() Snacks.picker.grep() end,                                    desc = "Grep (Root Dir)" },
+      { "<leader>sG",      function() Snacks.picker.grep({ root = false }) end,                    desc = "Grep (cwd)" },
       { "<leader>sp",      function() Snacks.picker.lazy() end,                                    desc = "Search for Plugin Spec" },
-      { "<leader>sw",      VxUtil.pick("grep_word"),                                               desc = "Visual selection or word (Root Dir)", mode = { "n", "x" } },
-      { "<leader>sW",      VxUtil.pick("grep_word", { root = false }),                             desc = "Visual selection or word (cwd)",      mode = { "n", "x" } },
+      { "<leader>sw",      function() Snacks.picker.grep_word() end,                               desc = "Visual selection or word (Root Dir)", mode = { "n", "x" } },
+      { "<leader>sW",      function() Snacks.picker.grep_word({ root = false }) end,               desc = "Visual selection or word (cwd)",      mode = { "n", "x" } },
       -- search
       { '<leader>s"',      function() Snacks.picker.registers() end,                               desc = "Registers" },
       { '<leader>s/',      function() Snacks.picker.search_history() end,                          desc = "Search History" },
@@ -596,6 +570,14 @@ return {
       { "<leader>.",       function() Snacks.scratch() end,                                        desc = "Toggle Scratch Buffer" },
       { "<leader>S",       function() Snacks.scratch.select() end,                                 desc = "Select Scratch Buffer" },
       { "<leader>dps",     function() Snacks.profiler.scratch() end,                               desc = "Profiler Scratch Buffer" },
+      -- LSP
+      { "gd",              function() Snacks.picker.lsp_definitions() end,                         desc = "Goto Definition" },
+      { "gD",              function() Snacks.picker.lsp_declarations() end,                        desc = "Goto Declaration" },
+      { "gr",              function() Snacks.picker.lsp_references() end,                          nowait = true,                                desc = "References" },
+      { "gI",              function() Snacks.picker.lsp_implementations() end,                     desc = "Goto Implementation" },
+      { "gy",              function() Snacks.picker.lsp_type_definitions() end,                    desc = "Goto T[y]pe Definition" },
+      { "<leader>ss",      function() Snacks.picker.lsp_symbols() end,                             desc = "LSP Symbols" },
+      { "<leader>sS",      function() Snacks.picker.lsp_workspace_symbols() end,                   desc = "LSP Workspace Symbols" },
     },
   },
 }
