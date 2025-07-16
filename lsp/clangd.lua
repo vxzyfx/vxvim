@@ -129,4 +129,15 @@ return {
     vim.keymap.set("n", "<leader>ch", "<cmd>LspClangdSwitchSourceHeader<cr>",
       { desc = "Switch Source/Header (C/C++)", buffer = bufnr })
   end,
+  settings = {
+    clangd = {
+      InlayHints = {
+        Designators = true,
+        Enabled = true,
+        ParameterNames = true,
+        DeducedTypes = true,
+      },
+      fallbackFlags = { "-std=c++20" },
+    },
+  },
 }
