@@ -68,7 +68,7 @@ function M.safe_keymap_set(mode, lhs, rhs, opts)
   if #modes > 0 then
     opts = opts or {}
     opts.silent = opts.silent ~= false
-    if opts.remap and not vim.g.vscode then
+    if opts.remap then
       ---@diagnostic disable-next-line: no-unknown
       opts.remap = nil
     end
@@ -152,6 +152,5 @@ end
 function M.has(plugin)
   return M.get_plugin(plugin) ~= nil
 end
-
 
 return M
