@@ -117,6 +117,14 @@ function M.setup()
   end
   M.run_on_attach(M._check_methods)
   M.on_dynamic_capability(M._check_methods)
+
+  vim.api.nvim_create_user_command('LspInfo', ":checkhealth vim.lsp", { desc = 'Lsp info' })
+  vim.api.nvim_create_user_command('LspLog', function()
+    vim.cmd(string.format('tabnew %s', vim.lsp.get_log_path()))
+  end, {
+    desc = 'Opens the Nvim LSP client log.',
+  })
+
   for _, lsp in pairs(VxUtil.config.lsp_servers) do
     vim.lsp.enable(lsp)
   end
