@@ -71,6 +71,7 @@ return {
         "markdown_inline",
         "nix",
         "ninja",
+        "objc",
         "printf",
         "python",
         "query",
@@ -78,6 +79,7 @@ return {
         "rust",
         "ron",
         "rst",
+        "swift",
         "toml",
         "tsx",
         "typescript",
@@ -109,9 +111,6 @@ return {
     },
     ---@param opts TSConfig
     config = function(_, opts)
-      if type(opts.ensure_installed) == "table" then
-        opts.ensure_installed = VxUtil.dedup(opts.ensure_installed)
-      end
       require("nvim-treesitter.configs").setup(opts)
     end,
   },

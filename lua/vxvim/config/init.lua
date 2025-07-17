@@ -109,7 +109,7 @@ VxUtil.config = {
     },
   },
   lsp_servers = { "astro", "basedpyright", "bashls", "clangd", "gopls", "jsonls", "luals", "neocmake", "nills",
-    "tailwindcss", "vtsls", "vuels", "helmls", "yamlls", "zls" }
+    "tailwindcss", "vtsls", "vuels", "swiftls", "helmls", "yamlls", "zls" }
 }
 
 function M.setup(opts)
