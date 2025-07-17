@@ -79,6 +79,7 @@ return {
         "rust",
         "ron",
         "rst",
+        "solidity",
         "swift",
         "toml",
         "tsx",
