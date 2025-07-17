@@ -47,7 +47,7 @@ map({ "i", "n", "s" }, "<esc>", function()
   return "<esc>"
 end, { expr = true, desc = "Escape and Clear hlsearch" })
 
-map("i", "jk", "<esc>", { desc = "Escape" })
+map("i", "\\\\", "<esc>", { desc = "Escape" })
 map("n", "<leader>bs", "<cmd>:w<cr>", { desc = "Write File" })
 map("n", "<leader>bS", "<cmd>:wa<cr>", { desc = "Write All File" })
 

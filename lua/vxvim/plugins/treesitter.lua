@@ -1,3 +1,13 @@
+vim.filetype.add({
+  extension = {
+    gotmpl = 'gotmpl',
+  },
+  pattern = {
+    [".*/templates/.*%.tpl"] = "helm",
+    [".*/templates/.*%.ya?ml"] = "helm",
+    ["helmfile.*%.ya?ml"] = "helm",
+  },
+})
 return {
   {
     "folke/which-key.nvim",
@@ -46,6 +56,7 @@ return {
         "gowork",
         "gosum",
         "graphql",
+        "helm",
         "html",
         "http",
         "javascript",
