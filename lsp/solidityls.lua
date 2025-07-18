@@ -1,16 +1,10 @@
 ---@brief
 ---
---- https://github.com/juanfranblanco/vscode-solidity
+--- https://docs.soliditylang.org/en/latest/installing-solidity.html
 ---
---- `vscode-solidity-server` can be installed via `npm`:
----
---- ```sh
---- npm install -g vscode-solidity-server
---- ```
----
---- `vscode-solidity-server` is a language server for the Solidity language ported from the VSCode "solidity" extension.
+--- solc is the native language server for the Solidity language.
 return {
-  cmd = { 'vscode-solidity-server', '--stdio' },
+  cmd = { 'solc', '--lsp' },
   filetypes = { 'solidity' },
   root_markers = {
     'hardhat.config.js',
