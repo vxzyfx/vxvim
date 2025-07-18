@@ -68,6 +68,15 @@ end
 M._supports_method = {}
 
 function M.setup()
+  if VxUtil.root.root_check({ "deno.json", "deno.jsonc" }) then
+    VxUtil.config.lsp_servers = vim.tbl_filter(function(server)
+      return not server:match("vtsls")
+    end, VxUtil.config.lsp_servers)
+  else
+    VxUtil.config.lsp_servers = vim.tbl_filter(function(server)
+      return not server:match("denols")
+    end, VxUtil.config.lsp_servers)
+  end
   local inlay_hints_exclude = { "vue" }
   VxUtil.format.register(VxUtil.lsp.formatter())
   VxUtil.lsp.on_dynamic_capability(require("vxvim.plugins.lsp.keymaps").on_attach)

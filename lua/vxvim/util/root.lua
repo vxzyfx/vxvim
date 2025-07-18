@@ -156,16 +156,6 @@ function M.setup()
   vim.api.nvim_create_user_command("LazyRoot", function()
     VxUtil.root.info()
   end, { desc = "VxUtil roots for the current buffer" })
-
-  -- FIX: doesn't properly clear cache in neo-tree `set_root` (which should happen presumably on `DirChanged`),
-  -- probably because the event is triggered in the neo-tree buffer, therefore add `BufEnter`
-  -- Maybe this is too frequent on `BufEnter` and something else should be done instead??
-  vim.api.nvim_create_autocmd({ "LspAttach", "BufWritePost", "DirChanged", "BufEnter" }, {
-    group = vim.api.nvim_create_augroup("vxvim_root_cache", { clear = true }),
-    callback = function(event)
-      M.cache[event.buf] = nil
-    end,
-  })
 end
 
 -- returns the root directory based on:
@@ -197,9 +187,19 @@ function M.git()
   return ret
 end
 
----@param opts? {hl_last?: string}
-function M.pretty_path(opts)
-  return ""
+---@param files string | string[]
+---@return boolean
+function M.root_check(files)
+  local root = M.get() .. "/"
+  if type(files) == "table" then
+    for _, file in pairs(files) do
+      if vim.uv.fs_stat(root .. file) and true or false then
+        return true
+      end
+    end
+    return false
+  end
+  return vim.uv.stat(root .. false) and true or false
 end
 
 return M

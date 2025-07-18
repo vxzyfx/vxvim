@@ -108,7 +108,8 @@ VxUtil.config = {
       "Trait",
     },
   },
-  lsp_servers = { "astro", "basedpyright", "bashls", "clangd", "dockerls", "gopls", "jsonls", "luals", "neocmake",
+  lsp_servers = { "astro", "basedpyright", "bashls", "clangd", "denols", "dockerls", "gopls", "jsonls", "luals",
+    "neocmake",
     "nills",
     "tailwindcss", "vtsls", "vuels", "roslynls", "solidityls", "swiftls", "helmls", "yamlls", "zls" }
 }
