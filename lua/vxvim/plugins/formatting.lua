@@ -76,29 +76,24 @@ return {
           lsp_format = "fallback", -- not recommended to change
         },
         formatters_by_ft = {
-          fish = { "fish_indent" },
+          cs = { "csharpier" },
           sh = { "shfmt", "shellcheck" },
           zsh = { "shfmt", "shellcheck" },
           go = { "goimports", "gofumpt" },
           lua = { "stylua" },
           nix = { "nixfmt" },
           python = { "isort", "black" },
-          ["markdown"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
-          ["markdown.mdx"] = { "prettier", "markdownlint-cli2", "markdown-toc" },
+          ["markdown"] = { "prettier", "markdownlint-cli2" },
+          ["markdown.mdx"] = { "prettier", "markdownlint-cli2" },
         },
         -- The options you set here will be merged with the builtin formatters.
         -- You can also define any custom formatters here.
         ---@type table<string, conform.FormatterConfigOverride|fun(bufnr: integer): nil|conform.FormatterConfigOverride>
         formatters = {
           injected = { options = { ignore_errors = true } },
-          ["markdown-toc"] = {
-            condition = function(_, ctx)
-              for _, line in ipairs(vim.api.nvim_buf_get_lines(ctx.buf, 0, -1, false)) do
-                if line:find("<!%-%- toc %-%->") then
-                  return true
-                end
-              end
-            end,
+          csharpier = {
+            command = "csharpier",
+            args = { "format" },
           },
           ["markdownlint-cli2"] = {
             condition = function(_, ctx)

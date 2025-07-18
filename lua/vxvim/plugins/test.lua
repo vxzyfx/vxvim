@@ -6,6 +6,7 @@ return {
       "nvim-neotest/nvim-nio",
       "fredrikaverpil/neotest-golang",
       "lawrence-laz/neotest-zig",
+      "Issafalcon/neotest-dotnet",
     },
     opts = {
       -- Can be a list of adapters like what neotest expects,
@@ -19,6 +20,7 @@ return {
         },
         ["neotest-python"] = {},
         ["neotest-zig"] = {},
+        ["neotest-dotnet"] = {},
       },
       -- Example for loading neotest-golang with a custom config
       -- adapters = {

@@ -46,8 +46,8 @@ return {
       { "<leader>dj",  function() require("dap").down() end,                                                 desc = "Down" },
       { "<leader>dk",  function() require("dap").up() end,                                                   desc = "Up" },
       { "<leader>dl",  function() require("dap").run_last() end,                                             desc = "Run Last" },
-      { "<leader>do",  function() require("dap").step_out() end,                                             desc = "Step Out" },
-      { "<leader>dO",  function() require("dap").step_over() end,                                            desc = "Step Over" },
+      { "<leader>dO",  function() require("dap").step_out() end,                                             desc = "Step Out" },
+      { "<leader>do",  function() require("dap").step_over() end,                                            desc = "Step Over" },
       { "<leader>dP",  function() require("dap").pause() end,                                                desc = "Pause" },
       { "<leader>dr",  function() require("dap").repl.toggle() end,                                          desc = "Toggle REPL" },
       { "<leader>ds",  function() require("dap").session() end,                                              desc = "Session" },
@@ -90,6 +90,32 @@ return {
             },
           },
         }
+      end
+      if not dap.adapters["netcoredbg"] then
+        require("dap").adapters["netcoredbg"] = {
+          type = "executable",
+          command = vim.fn.exepath("netcoredbg"),
+          args = { "--interpreter=vscode" },
+          options = {
+            detached = false,
+          },
+        }
+      end
+      for _, lang in ipairs({ "cs", "fsharp", "vb" }) do
+        if not dap.configurations[lang] then
+          dap.configurations[lang] = {
+            {
+              type = "netcoredbg",
+              name = "Launch file",
+              request = "launch",
+              ---@diagnostic disable-next-line: redundant-parameter
+              program = function()
+                return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/", "file")
+              end,
+              cwd = "${workspaceFolder}",
+            },
+          }
+        end
       end
       local js_filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
       -- local vscode = require("dap.ext.vscode")
