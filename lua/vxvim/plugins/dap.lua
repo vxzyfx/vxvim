@@ -1,7 +1,6 @@
 ---@param config {type?:string, args?:string[]|fun():string[]?}
 local function get_args(config)
-  local args = type(config.args) == "function" and (config.args() or {}) or config.args or
-      {} --[[@as string[] | string ]]
+  local args = type(config.args) == "function" and (config.args() or {}) or config.args or {} --[[@as string[] | string ]]
   local args_str = type(args) == "table" and table.concat(args, " ") or args --[[@as string]]
 
   config = vim.deepcopy(config)
@@ -98,67 +97,6 @@ return {
           args = { "--interpreter=vscode" },
           options = {
             detached = false,
-          },
-        }
-      end
-      for _, lang in ipairs({ "cs", "fsharp", "vb" }) do
-        if not dap.configurations[lang] then
-          dap.configurations[lang] = {
-            {
-              type = "netcoredbg",
-              name = "Launch file",
-              request = "launch",
-              ---@diagnostic disable-next-line: redundant-parameter
-              program = function()
-                return vim.fn.input("Path to dll: ", vim.fn.getcwd() .. "/", "file")
-              end,
-              cwd = "${workspaceFolder}",
-            },
-          }
-        end
-      end
-      local js_filetypes = { "typescript", "javascript", "typescriptreact", "javascriptreact" }
-      -- local vscode = require("dap.ext.vscode")
-      -- vscode.type_to_filetypes["node"] = js_filetypes
-      -- vscode.type_to_filetypes["pwa-node"] = js_filetypes
-
-      for _, language in ipairs(js_filetypes) do
-        if not dap.configurations[language] then
-          dap.configurations[language] = {
-            {
-              type = "pwa-node",
-              request = "launch",
-              name = "Launch file",
-              program = "${file}",
-              cwd = "${workspaceFolder}",
-            },
-            {
-              type = "pwa-node",
-              request = "attach",
-              name = "Attach",
-              processId = require("dap.utils").pick_process,
-              cwd = "${workspaceFolder}",
-            },
-          }
-        end
-      end
-      for _, lang in ipairs({ "c", "cpp" }) do
-        dap.configurations[lang] = {
-          {
-            type = "codelldb",
-            request = "launch",
-            name = "Launch file",
-            program = function()
-              return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")
-            end,
-            cwd = "${workspaceFolder}",
-          },
-          {
-            type = "codelldb",
-            request = "attach",
-            name = "Attach to process",
-            pid = require("dap.utils").pick_process,
-            cwd = "${workspaceFolder}",
           },
         }
       end
