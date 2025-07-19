@@ -36,6 +36,7 @@ return {
         neotest = true,
         noice = true,
         notify = true,
+        overseer = true,
         semantic_tokens = true,
         snacks = true,
         treesitter = true,

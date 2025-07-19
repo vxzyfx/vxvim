@@ -45,8 +45,8 @@ return {
       { "<leader>dj",  function() require("dap").down() end,                                                 desc = "Down" },
       { "<leader>dk",  function() require("dap").up() end,                                                   desc = "Up" },
       { "<leader>dl",  function() require("dap").run_last() end,                                             desc = "Run Last" },
-      { "<leader>dO",  function() require("dap").step_out() end,                                             desc = "Step Out" },
-      { "<leader>do",  function() require("dap").step_over() end,                                            desc = "Step Over" },
+      { "<leader>do",  function() require("dap").step_out() end,                                             desc = "Step Out" },
+      { "<leader>dn",  function() require("dap").step_over() end,                                            desc = "Step Over" },
       { "<leader>dP",  function() require("dap").pause() end,                                                desc = "Pause" },
       { "<leader>dr",  function() require("dap").repl.toggle() end,                                          desc = "Toggle REPL" },
       { "<leader>ds",  function() require("dap").session() end,                                              desc = "Session" },
@@ -59,8 +59,26 @@ return {
 
     config = function()
       require("dap-python").setup("python")
+      require("overseer").enable_dap()
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
       local dap = require("dap")
+      dap.adapters.gdb = {
+        type = "executable",
+        command = "gdb",
+        args = { "--interpreter=dap", "--eval-command", "set print pretty on" },
+      }
+
+      dap.adapters.lldb = {
+        type = "executable",
+        command = "lldb-dap",
+        name = "lldb",
+      }
+      dap.adapters.cppdbg = {
+        id = "cppdbg",
+        type = "executable",
+        command = vim.g.vx_cpptools,
+      }
+
       if not dap.adapters["codelldb"] then
         require("dap").adapters["codelldb"] = {
           type = "server",

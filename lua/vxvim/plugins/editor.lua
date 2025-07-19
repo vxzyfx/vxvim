@@ -61,6 +61,7 @@ return {
           { "<leader>f", group = "file/find" },
           { "<leader>g", group = "git" },
           { "<leader>gh", group = "hunks" },
+          { "<leader>o", group = "overseer" },
           { "<leader>q", group = "quit/session" },
           { "<leader>s", group = "search" },
           { "<leader>u", group = "ui", icon = { icon = "󰙵 ", color = "cyan" } },
@@ -203,11 +204,15 @@ return {
       },
     },
     keys = {
-      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>",              desc = "Diagnostics (Trouble)" },
+      { "<leader>xx", "<cmd>Trouble diagnostics toggle<cr>", desc = "Diagnostics (Trouble)" },
       { "<leader>xX", "<cmd>Trouble diagnostics toggle filter.buf=0<cr>", desc = "Buffer Diagnostics (Trouble)" },
-      { "<leader>cS", "<cmd>Trouble lsp toggle<cr>",                      desc = "LSP references/definitions/... (Trouble)" },
-      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>",                  desc = "Location List (Trouble)" },
-      { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>",                   desc = "Quickfix List (Trouble)" },
+      {
+        "<leader>cS",
+        "<cmd>Trouble lsp toggle<cr>",
+        desc = "LSP references/definitions/... (Trouble)",
+      },
+      { "<leader>xL", "<cmd>Trouble loclist toggle<cr>", desc = "Location List (Trouble)" },
+      { "<leader>xQ", "<cmd>Trouble qflist toggle<cr>", desc = "Quickfix List (Trouble)" },
       {
         "[q",
         function()
