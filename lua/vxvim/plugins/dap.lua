@@ -58,7 +58,7 @@ return {
     },
 
     config = function()
-      require("dap-python").setup("python")
+      require("dap-python").setup("python3")
       require("overseer").enable_dap()
       vim.api.nvim_set_hl(0, "DapStoppedLine", { default = true, link = "Visual" })
       local dap = require("dap")

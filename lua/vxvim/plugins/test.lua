@@ -4,31 +4,33 @@ return {
     dependencies = {
       "nvim-neotest/neotest-python",
       "nvim-neotest/nvim-nio",
+      "sidlatau/neotest-dart",
+      "llllvvuu/neotest-foundry",
       "fredrikaverpil/neotest-golang",
+      "alfaix/neotest-gtest",
+      "mmllr/neotest-swift-testing",
       "lawrence-laz/neotest-zig",
+      "marilari88/neotest-vitest",
       "nsidorenco/neotest-vstest",
     },
     opts = {
-      -- Can be a list of adapters like what neotest expects,
-      -- or a list of adapter names,
-      -- or a table of adapter names, mapped to adapter configs.
-      -- The adapter will then be automatically loaded with the config.
       adapters = {
         ["rustaceanvim.neotest"] = {},
+        ["neotest-dart"] = {
+          command = "flutter",
+          use_lsp = true,
+        },
+        ["neotest-foundry"] = {},
         ["neotest-golang"] = {
           dap_go_enabled = true, -- requires leoluz/nvim-dap-go
         },
+        ["neotest-gtest"] = {},
         ["neotest-python"] = {},
         ["neotest-zig"] = {},
+        ["neotest-vitest"] = {},
         ["neotest-vstest"] = {},
+        ["neotest-swift-testing"] = {},
       },
-      -- Example for loading neotest-golang with a custom config
-      -- adapters = {
-      --   ["neotest-golang"] = {
-      --     go_test_args = { "-v", "-race", "-count=1", "-timeout=60s" },
-      --     dap_go_enabled = true,
-      --   },
-      -- },
       status = { virtual_text = true },
       output = { open_on_run = true },
       quickfix = {
