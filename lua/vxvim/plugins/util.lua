@@ -120,11 +120,21 @@ local tmpl = {
       },
     }
     local json_str = vim.json.encode(json)
-    vim.fn.writefile({ json_str }, params.file)
-    local tmp = vim.uv.os_tmpdir() .. "/jq.json"
+    local pretty_json = vim.fn.system("jq .", json_str)
+    local file = io.open(params.file, "w")
+    if file then
+      file:write(pretty_json)
+      file:close()
+    else
+      return {
+        cmd = { "echo" },
+        args = { "Write Error: " .. params.file },
+        cwd = params.cwd,
+      }
+    end
     return {
-      cmd = { "sh" },
-      args = { "-c", string.format("jq . %s > %s && mv %s %s", params.file, tmp, tmp, params.file) },
+      cmd = { "echo" },
+      args = { "Write: " .. params.file },
       cwd = params.cwd,
     }
   end,
@@ -149,11 +159,21 @@ local task_tmpl = {
       }
     end
     local json_str = vim.json.encode(task)
-    vim.fn.writefile({ json_str }, params.file)
-    local tmp = vim.uv.os_tmpdir() .. "/jq.json"
+    local pretty_json = vim.fn.system("jq .", json_str)
+    local file = io.open(params.file, "w")
+    if file then
+      file:write(pretty_json)
+      file:close()
+    else
+      return {
+        cmd = { "echo" },
+        args = { "Write Error: " .. params.file },
+        cwd = params.cwd,
+      }
+    end
     return {
-      cmd = { "sh" },
-      args = { "-c", string.format("jq . %s > %s && mv %s %s", params.file, tmp, tmp, params.file) },
+      cmd = { "echo" },
+      args = { "Write: " .. params.file },
       cwd = params.cwd,
     }
   end,
