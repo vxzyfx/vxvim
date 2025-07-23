@@ -108,10 +108,28 @@ VxUtil.config = {
       "Trait",
     },
   },
-  lsp_servers = { "astro", "basedpyright", "bashls", "clangd", "denols", "dockerls", "gopls", "jsonls", "luals",
+  lsp_servers = {
+    "astro",
+    "basedpyright",
+    "bashls",
+    "clangd",
+    "denols",
+    "dockerls",
+    "gopls",
+    "jsonls",
+    "luals",
     "neocmake",
     "nills",
-    "tailwindcss", "vtsls", "vuels", "solidityls", "swiftls", "helmls", "yamlls", "zls" }
+    "tailwindcss",
+    "vtsls",
+    "vuels",
+    "solidityls",
+    "swiftls",
+    "kulalals",
+    "helmls",
+    "yamlls",
+    "zls",
+  },
 }
 
 function M.setup(opts)
@@ -133,7 +151,7 @@ function M.setup(opts)
       VxUtil.format.setup()
       VxUtil.root.setup()
       VxUtil.lsp.setup()
-    end
+    end,
   })
   VxUtil.track("colorscheme")
   VxUtil.try(function()
