@@ -12,6 +12,7 @@ return {
       "lawrence-laz/neotest-zig",
       "marilari88/neotest-vitest",
       "nsidorenco/neotest-vstest",
+      "rcasia/neotest-java",
     },
     opts = {
       adapters = {
@@ -30,6 +31,7 @@ return {
         ["neotest-vitest"] = {},
         ["neotest-vstest"] = {},
         ["neotest-swift-testing"] = {},
+        ["neotest-java"] = {},
       },
       status = { virtual_text = true },
       output = { open_on_run = true },
