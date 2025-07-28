@@ -119,7 +119,7 @@ VxUtil.config = {
     "jsonls",
     "luals",
     "neocmake",
-    "nills",
+    "nixd",
     "tailwindcss",
     "vtsls",
     "vuels",
