@@ -1,3 +1,15 @@
+local function create_dir(path)
+  local file_state_vscode = vim.uv.fs_stat(path) or {}
+  if file_state_vscode.type ~= "directory" and file_state_vscode.type ~= nil then
+    vim.notify(path .. " is not directory, and is exist", vim.log.levels.WARN, { title = "template" })
+    return
+  end
+  if file_state_vscode.type == nil then
+    vim.fn.mkdir(path, "p")
+    vim.notify("created: " .. path, vim.log.levels.INFO, { title = "template" })
+  end
+end
+
 local templates = {
   gdb_launch = {
     name = "GDB Launch",
@@ -105,6 +117,7 @@ local tmpl = {
     },
   },
   builder = function(params)
+    create_dir(params.file)
     local file_state = vim.uv.fs_stat(params.file) or {}
     if file_state.type == "file" then
       return {
@@ -150,6 +163,7 @@ local task_tmpl = {
     },
   },
   builder = function(params)
+    create_dir(params.file)
     local file_state = vim.uv.fs_stat(params.file) or {}
     if file_state.type == "file" then
       return {
@@ -184,15 +198,6 @@ local provider = {
   generator = function(_, cb)
     local root = VxUtil.root()
     local vscode = root .. "/.vscode"
-    local file_state = vim.uv.fs_stat(vscode) or {}
-    if file_state.type ~= "directory" and file_state.type ~= nil then
-      vim.notify(".vscode is not directory, and is exist", vim.log.levels.WARN, { title = "template" })
-      return
-    end
-    if file_state.type == nil then
-      vim.fn.mkdir(vscode)
-      vim.notify("created: " .. vscode, vim.log.levels.INFO, { title = "template" })
-    end
     local overseer = require("overseer")
     local ret = {}
     for name, _ in pairs(templates) do
