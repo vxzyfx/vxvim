@@ -117,7 +117,7 @@ local tmpl = {
     },
   },
   builder = function(params)
-    create_dir(params.file)
+    create_dir(vim.fs.dirname(params.file))
     local file_state = vim.uv.fs_stat(params.file) or {}
     if file_state.type == "file" then
       return {
@@ -163,7 +163,7 @@ local task_tmpl = {
     },
   },
   builder = function(params)
-    create_dir(params.file)
+    create_dir(vim.fs.dirname(params.file))
     local file_state = vim.uv.fs_stat(params.file) or {}
     if file_state.type == "file" then
       return {
