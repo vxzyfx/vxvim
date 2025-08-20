@@ -123,6 +123,7 @@ VxUtil.config = {
     "tailwindcss",
     "vtsls",
     "vuels",
+    "phpactor",
     "solidityls",
     "swiftls",
     "kulalals",

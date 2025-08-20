@@ -10,6 +10,7 @@ return {
         sh = { "shellcheck" },
         zsh = { "shellcheck" },
         cmake = { "cmakelint" },
+        php = { "phpcs" },
         markdown = { "markdownlint-cli2" },
         -- Use the "*" filetype to run linters on all filetypes.
         -- ['*'] = { 'global linter' },
