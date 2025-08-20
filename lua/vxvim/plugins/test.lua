@@ -13,6 +13,7 @@ return {
       "marilari88/neotest-vitest",
       "nsidorenco/neotest-vstest",
       "rcasia/neotest-java",
+      "codymikol/neotest-kotlin",
     },
     opts = {
       adapters = {
@@ -32,6 +33,7 @@ return {
         ["neotest-vstest"] = {},
         ["neotest-swift-testing"] = {},
         ["neotest-java"] = {},
+        ["neotest-kotlin"] = {},
       },
       status = { virtual_text = true },
       output = { open_on_run = true },

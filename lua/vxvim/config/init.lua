@@ -124,7 +124,6 @@ VxUtil.config = {
     "vtsls",
     "vuels",
     "phpactor",
-    "kotlinls",
     "solidityls",
     "swiftls",
     "kulalals",
