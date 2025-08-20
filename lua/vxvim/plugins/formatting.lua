@@ -83,6 +83,7 @@ return {
           lua = { "stylua" },
           nix = { "nixfmt" },
           php = { "php_cs_fixer" },
+          kotlin = { "ktlint" },
           python = { "isort", "black" },
           ["markdown"] = { "prettier", "markdownlint-cli2" },
           ["markdown.mdx"] = { "prettier", "markdownlint-cli2" },
