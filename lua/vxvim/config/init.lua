@@ -126,7 +126,6 @@ VxUtil.config = {
     "phpactor",
     "solidityls",
     "swiftls",
-    "kulalals",
     "helmls",
     "yamlls",
     "zls",
