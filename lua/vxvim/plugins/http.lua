@@ -27,6 +27,10 @@ return {
       { "<leader>RS", "<cmd>lua require('kulala').show_stats()<cr>", desc = "Show stats", ft = "http" },
       { "<leader>Rt", "<cmd>lua require('kulala').toggle_view()<cr>", desc = "Toggle headers/body", ft = "http" },
     },
-    opts = {},
+    opts = {
+      ui = {
+        max_response_size = 320000,
+      },
+    },
   },
 }
