@@ -435,7 +435,7 @@ return {
       notifier = { enabled = true },
       scope = { enabled = true },
       scroll = { enabled = true },
-      statuscolumn = { enabled = false },
+      statuscolumn = { enabled = true },
       toggle = { map = VxUtil.safe_keymap_set },
       words = { enabled = true },
       explorer = { enabled = true },

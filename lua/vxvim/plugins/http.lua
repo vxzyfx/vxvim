@@ -31,6 +31,9 @@ return {
       ui = {
         max_response_size = 320000,
       },
+      contenttypes = {
+        ["application/vnd.optile.payment.enterprise-v1-extensible+json"] = "application/json",
+      },
     },
   },
 }
